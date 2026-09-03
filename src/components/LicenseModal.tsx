@@ -3,7 +3,9 @@ import type { FormEvent } from 'react'
 import {
   BadgeCheck,
   Check,
+  ExternalLink,
   KeyRound,
+  ShoppingBag,
   LoaderCircle,
   ShieldCheck,
   Sparkles,
@@ -150,6 +152,22 @@ export function LicenseModal({
             </div>
           ) : (
             <form className="mt-6" onSubmit={handleSubmit}>
+              <div className="mb-5 rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-3.5">
+                <p className="text-center text-xs font-semibold leading-5 text-amber-900">
+                  还没有激活码？点击前往 Lemon Squeezy 购买
+                </p>
+                <a
+                  href="https://docufold.lemonsqueezy.com/checkout/buy/1cbe4efb-0859-450b-b4dd-8f94d7ffa049"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-xl bg-amber-500 px-4 py-2.5 text-sm font-black text-slate-950 shadow-md shadow-amber-200 transition hover:bg-amber-400 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-200"
+                >
+                  <ShoppingBag size={17} aria-hidden="true" />
+                  去购买 License Key
+                  <ExternalLink size={14} aria-hidden="true" />
+                </a>
+              </div>
+
               <label htmlFor="license-key" className="block text-xs font-bold text-slate-700">
                 License Key
                 <span className="relative mt-2 block">
