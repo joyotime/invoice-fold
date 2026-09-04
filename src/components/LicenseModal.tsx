@@ -158,7 +158,7 @@ export function LicenseModal({
                   No License Key yet? Purchase securely through Lemon Squeezy.
                 </p>
                 <a
-                  href="https://docufold.lemonsqueezy.com/checkout/buy/1cbe4efb-0859-450b-b4dd-8f94d7ffa049"
+                  href="https://docufold.lemonsqueezy.com/checkout/buy/4361ac97-1078-4162-8cc7-c7f7d42601cc"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-3 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-xl bg-amber-500 px-4 py-2.5 text-sm font-black text-slate-950 shadow-md shadow-amber-200 transition hover:bg-amber-400 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-200"
