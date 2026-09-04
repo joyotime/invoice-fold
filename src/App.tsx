@@ -32,27 +32,27 @@ function createInitialInvoice(): InvoiceData {
     issueDate: toDateInputValue(issueDate),
     dueDate: toDateInputValue(dueDate),
     seller: {
-      name: '星河创意工作室',
-      email: 'hello@stellar-studio.cn',
-      address: '上海市静安区南京西路 1266 号\n恒隆广场 2 期 18 楼',
+      name: 'Northstar Creative Studio',
+      email: 'hello@northstar.studio',
+      address: '250 Market Street\nSan Francisco, CA 94105',
       logoUrl: '',
     },
     buyer: {
-      name: '云端科技有限公司',
-      email: 'finance@cloud-tech.cn',
-      address: '北京市朝阳区望京东路 1 号\n摩托罗拉大厦 8 楼',
+      name: 'Acme Technologies Inc.',
+      email: 'billing@acmetech.com',
+      address: '500 Fifth Avenue\nNew York, NY 10110',
     },
     items: [
       {
         id: 'starter-item-1',
-        name: '品牌视觉与网页设计服务',
+        name: 'Brand identity and web design',
         quantity: 1,
         unitPrice: 12800,
         amount: 12800,
       },
       {
         id: 'starter-item-2',
-        name: '前端开发与交付',
+        name: 'Frontend development and delivery',
         quantity: 2,
         unitPrice: 4800,
         amount: 9600,
@@ -60,9 +60,9 @@ function createInitialInvoice(): InvoiceData {
     ],
     taxRate: 6,
     discount: 800,
-    currencySymbol: '¥',
+    currencySymbol: '$',
     theme: 'classic',
-    notes: '请在付款截止日前完成转账，并在备注中填写发票编号。感谢您的信任与合作。',
+    notes: 'Please include the invoice number with your payment. Thank you for your business.',
   }
 }
 
@@ -107,7 +107,7 @@ function App() {
             </span>
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h1 className="truncate text-base font-black tracking-tight text-slate-950 sm:text-lg">
+                <h1 className="text-base font-black tracking-tight text-slate-950 sm:text-lg">
                   Invoice Fold
                 </h1>
                 <span
@@ -120,15 +120,13 @@ function App() {
                   {isPro ? 'Pro' : 'Free'}
                 </span>
               </div>
-              <p className="hidden text-xs text-slate-500 sm:block">纯前端发票生成器</p>
+              <p className="hidden text-xs text-slate-500 sm:block">
+                100% Client-Side &amp; Privacy-First Invoice Generator
+              </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            <div className="hidden items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 xl:flex">
-              <LockKeyhole size={13} aria-hidden="true" />
-              发票数据仅在当前浏览器处理
-            </div>
             <button
               type="button"
               onClick={() => setIsLicenseModalOpen(true)}
@@ -140,9 +138,9 @@ function App() {
             >
               {isPro ? <Crown size={17} aria-hidden="true" /> : <KeyRound size={17} aria-hidden="true" />}
               <span className="hidden lg:inline">
-                {isPro ? 'Pro 已激活' : '升级为 Pro / 输入激活码'}
+                {isPro ? 'PRO Active' : 'Upgrade to PRO / Enter License Key'}
               </span>
-              <span className="lg:hidden">{isPro ? 'Pro' : '升级 Pro'}</span>
+              <span className="lg:hidden">{isPro ? 'PRO' : 'Upgrade'}</span>
             </button>
             <button
               type="button"
@@ -155,9 +153,13 @@ function App() {
               ) : (
                 <Download size={17} aria-hidden="true" />
               )}
-              <span className="hidden sm:inline">{isExporting ? '正在生成…' : '导出 PDF'}</span>
+              <span className="hidden sm:inline">{isExporting ? 'Exporting…' : 'Export PDF'}</span>
             </button>
           </div>
+        </div>
+        <div className="border-t border-emerald-100 bg-emerald-50/90 px-4 py-2 text-center text-xs font-bold text-emerald-800 sm:px-6">
+          <span aria-hidden="true">🔒</span>{' '}
+          100% Private: All data stays in your browser
         </div>
       </header>
 
@@ -172,21 +174,23 @@ function App() {
                   onClick={() => setIsLicenseModalOpen(true)}
                   className="rounded-full bg-amber-100 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-amber-800 transition hover:bg-amber-200"
                 >
-                  Free plan
+                  Free Plan
                 </button>
               )}
             </div>
-            <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">制作一张清晰、专业的发票</h2>
+            <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">
+              Create a polished, professional invoice
+            </h2>
           </div>
           <div className="min-h-5 text-sm" aria-live="polite">
             {exportStatus === 'success' && (
               <p className="flex items-center gap-2 font-semibold text-emerald-700">
                 <FileCheck2 size={16} aria-hidden="true" />
-                PDF 已保存到下载目录
+                Your PDF has been saved to Downloads
               </p>
             )}
             {exportStatus === 'error' && (
-              <p className="font-semibold text-rose-700">导出失败，请稍后重试。</p>
+              <p className="font-semibold text-rose-700">Export failed. Please try again.</p>
             )}
           </div>
         </div>
@@ -203,7 +207,7 @@ function App() {
 
           <section className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-slate-200/70">
             <div className="no-print flex items-center justify-between gap-3 border-b border-slate-300/70 bg-white/70 px-4 py-3 text-xs text-slate-500 backdrop-blur sm:px-5">
-              <span className="font-bold text-slate-700">实时预览</span>
+              <span className="font-bold text-slate-700">Live Preview</span>
               <div className="flex items-center gap-2">
                 <span className="hidden sm:inline">A4 · 210 × 297 mm</span>
                 <button
@@ -214,14 +218,14 @@ function App() {
                       ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 focus-visible:ring-emerald-100'
                       : 'border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 focus-visible:ring-amber-100'
                   }`}
-                  aria-label={isPro ? '查看 Pro 激活状态' : '打开 Pro 激活窗口'}
+                  aria-label={isPro ? 'View PRO license status' : 'Open PRO activation window'}
                 >
                   {isPro ? (
                     <Crown size={12} aria-hidden="true" />
                   ) : (
                     <LockKeyhole size={12} aria-hidden="true" />
                   )}
-                  {isPro ? 'PRO 已激活' : 'FREE 模式预览'}
+                  {isPro ? 'PRO Active' : 'FREE Preview'}
                 </button>
               </div>
             </div>

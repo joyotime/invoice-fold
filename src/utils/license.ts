@@ -73,7 +73,7 @@ export async function activateLicenseKey(
   const licenseKey = rawLicenseKey.trim()
 
   if (!licenseKey) {
-    return { success: false, message: '请输入有效的激活码。' }
+    return { success: false, message: 'Please enter a valid License Key.' }
   }
 
   const expectedProductId = import.meta.env.VITE_LEMON_SQUEEZY_PRODUCT_ID?.trim()
@@ -81,7 +81,7 @@ export async function activateLicenseKey(
   if (!expectedProductId) {
     return {
       success: false,
-      message: '尚未配置 Invoice Fold Pro 的 Lemon Squeezy Product ID。',
+      message: 'The Lemon Squeezy Product ID for Invoice Fold PRO is not configured.',
     }
   }
 
@@ -105,7 +105,9 @@ export async function activateLicenseKey(
     if (!response.ok || !result.activated) {
       return {
         success: false,
-        message: result.error || '激活码无效或已达到激活次数上限。',
+        message:
+          result.error ||
+          'This License Key is invalid or has reached its activation limit.',
       }
     }
 
@@ -118,14 +120,14 @@ export async function activateLicenseKey(
 
       return {
         success: false,
-        message: '该激活码不属于 Invoice Fold Pro。',
+        message: 'This License Key does not belong to Invoice Fold PRO.',
       }
     }
 
     if (!storeLicenseStatus(true)) {
       return {
         success: false,
-        message: '浏览器阻止了本地存储，无法保存激活状态。',
+        message: 'Your browser blocked local storage, so activation could not be saved.',
       }
     }
 
@@ -139,11 +141,11 @@ export async function activateLicenseKey(
       )
     }
 
-    return { success: true, message: '激活成功，Pro 功能已解锁。' }
+    return { success: true, message: 'Activation successful. PRO features are now unlocked.' }
   } catch {
     return {
       success: false,
-      message: '暂时无法连接 Lemon Squeezy，请检查网络后重试。',
+      message: 'Unable to reach Lemon Squeezy. Check your connection and try again.',
     }
   }
 }

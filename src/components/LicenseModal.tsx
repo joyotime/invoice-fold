@@ -21,10 +21,11 @@ interface LicenseModalProps {
 }
 
 const proFeatures = [
-  '移除免费版水印',
-  '上传自定义公司 Logo',
-  '切换专业发票主题',
-  '切换多种国际货币',
+  'Remove "Free Version" PDF Watermark',
+  'Upload Custom Business Logo',
+  'Unlock Premium Color Themes',
+  'Multi-Currency Support (USD, EUR, GBP, SGD, JPY, etc.)',
+  'Export & Import Invoice Data (Local Backup)',
 ]
 
 export function LicenseModal({
@@ -89,14 +90,14 @@ export function LicenseModal({
         type="button"
         className="absolute inset-0 cursor-default bg-slate-950/55 backdrop-blur-sm"
         onClick={resetAndClose}
-        aria-label="关闭激活弹窗"
+        aria-label="Close license dialog"
       />
 
       <section
         role="dialog"
         aria-modal="true"
         aria-labelledby="license-modal-title"
-        className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-white/60 bg-white shadow-2xl shadow-slate-950/30"
+        className="relative z-10 max-h-[calc(100vh-2rem)] w-full max-w-md overflow-y-auto rounded-3xl border border-white/60 bg-white shadow-2xl shadow-slate-950/30"
       >
         <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-sky-950 px-6 pb-7 pt-6 text-white sm:px-8">
           <div className="flex items-start justify-between gap-4">
@@ -108,19 +109,19 @@ export function LicenseModal({
               onClick={resetAndClose}
               disabled={isSubmitting}
               className="grid size-9 place-items-center rounded-xl text-slate-400 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 disabled:opacity-50"
-              aria-label="关闭"
+              aria-label="Close"
             >
               <X size={19} aria-hidden="true" />
             </button>
           </div>
-          <p className="mt-6 text-xs font-bold uppercase tracking-[0.24em] text-sky-300">Invoice Fold Pro</p>
+          <p className="mt-6 text-xs font-bold uppercase tracking-[0.24em] text-sky-300">Invoice Fold PRO</p>
           <h2 id="license-modal-title" className="mt-2 text-2xl font-black tracking-tight">
-            {isActive || isSuccess ? 'Pro 已成功激活' : '解锁专业版功能'}
+            {isActive || isSuccess ? 'Invoice Fold PRO is Active' : 'Upgrade to Invoice Fold PRO'}
           </h2>
           <p className="mt-2 text-sm leading-6 text-slate-300">
             {isActive || isSuccess
-              ? '此浏览器已获得 Pro 权限。'
-              : '输入购买后收到的 Lemon Squeezy License Key。'}
+              ? 'PRO features are unlocked in this browser.'
+              : 'Unlock every premium feature with a one-time purchase.'}
           </p>
         </div>
 
@@ -140,21 +141,21 @@ export function LicenseModal({
             <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold text-emerald-800">
               <div className="flex items-center gap-2">
                 <BadgeCheck size={19} aria-hidden="true" />
-                {message || 'License Key 已激活并保存在当前浏览器。'}
+                {message || 'Your License Key is active and saved in this browser.'}
               </div>
               <button
                 type="button"
                 onClick={resetAndClose}
                 className="mt-4 w-full rounded-xl bg-emerald-700 px-4 py-2.5 font-bold text-white transition hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-200"
               >
-                开始使用 Pro
+                Continue with PRO
               </button>
             </div>
           ) : (
             <form className="mt-6" onSubmit={handleSubmit}>
               <div className="mb-5 rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-3.5">
                 <p className="text-center text-xs font-semibold leading-5 text-amber-900">
-                  还没有激活码？点击前往 Lemon Squeezy 购买
+                  No License Key yet? Purchase securely through Lemon Squeezy.
                 </p>
                 <a
                   href="https://docufold.lemonsqueezy.com/checkout/buy/1cbe4efb-0859-450b-b4dd-8f94d7ffa049"
@@ -163,7 +164,7 @@ export function LicenseModal({
                   className="mt-3 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-xl bg-amber-500 px-4 py-2.5 text-sm font-black text-slate-950 shadow-md shadow-amber-200 transition hover:bg-amber-400 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-200"
                 >
                   <ShoppingBag size={17} aria-hidden="true" />
-                  去购买 License Key
+                  Get Lifetime Access - $9.99
                   <ExternalLink size={14} aria-hidden="true" />
                 </a>
               </div>
@@ -183,7 +184,7 @@ export function LicenseModal({
                     value={licenseKey}
                     onChange={(event) => setLicenseKey(event.target.value)}
                     className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-3 font-mono text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-sky-500 focus:bg-white focus:ring-4 focus:ring-sky-100"
-                    placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+                    placeholder="Enter your Lemon Squeezy License Key"
                     autoComplete="off"
                     spellCheck={false}
                     disabled={isSubmitting}
@@ -208,13 +209,13 @@ export function LicenseModal({
                 ) : (
                   <ShieldCheck size={17} aria-hidden="true" />
                 )}
-                {isSubmitting ? '正在验证…' : '激活'}
+                {isSubmitting ? 'Verifying…' : 'Activate License'}
               </button>
             </form>
           )}
 
           <p className="mt-4 text-center text-[11px] leading-5 text-slate-400">
-            激活请求由 Lemon Squeezy 安全验证；授权状态仅保存在当前浏览器。
+            License activation is securely verified by Lemon Squeezy. Your status is stored only in this browser.
           </p>
         </div>
       </section>

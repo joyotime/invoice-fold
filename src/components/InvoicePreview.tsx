@@ -19,7 +19,7 @@ function toFiniteNumber(value: number) {
 }
 
 function formatMoney(value: number, symbol: string) {
-  return `${symbol || '¥'}${toFiniteNumber(value).toLocaleString('zh-CN', {
+  return `${symbol || '$'}${toFiniteNumber(value).toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })}`
@@ -32,7 +32,7 @@ function formatDate(value: string) {
   const date = new Date(year, month - 1, day)
 
   if (Number.isNaN(date.getTime())) return value
-  return new Intl.DateTimeFormat('zh-CN', {
+  return new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -64,7 +64,7 @@ export function InvoicePreview({ invoiceData, isPro }: InvoicePreviewProps) {
       data-invoice-preview
       style={invoiceStyle}
       className="invoice-paper relative flex min-h-[297mm] w-[210mm] shrink-0 flex-col overflow-hidden bg-white px-[15mm] py-[14mm] text-left text-slate-700 shadow-[0_24px_80px_rgba(15,23,42,0.16)]"
-      aria-label="发票实时预览"
+      aria-label="Live invoice preview"
     >
       <div className="absolute inset-x-0 top-0 h-2 bg-[var(--invoice-accent)]" />
 
@@ -91,7 +91,7 @@ export function InvoicePreview({ invoiceData, isPro }: InvoicePreviewProps) {
               Issued by
             </p>
             <h2 className="mt-2 break-words text-xl font-black leading-tight text-slate-950">
-              {invoiceData.seller.name || '您的公司名称'}
+              {invoiceData.seller.name || 'Your Business'}
             </h2>
             <div className="mt-3 space-y-1.5 text-[11px] leading-relaxed text-slate-500">
               {invoiceData.seller.email && (
@@ -115,7 +115,7 @@ export function InvoicePreview({ invoiceData, isPro }: InvoicePreviewProps) {
             Invoice
           </p>
           <h1 className="mt-1 text-4xl font-black tracking-[-0.06em] text-slate-950">
-            发票
+            Invoice
           </h1>
           <p className="mt-4 font-mono text-xs font-semibold text-slate-500">
             #{invoiceData.invoiceNumber || 'DRAFT'}
@@ -126,46 +126,46 @@ export function InvoicePreview({ invoiceData, isPro }: InvoicePreviewProps) {
       <section className="grid grid-cols-[1.15fr_0.85fr] gap-12 py-9">
         <div>
           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
-            Bill to / 付款方
+            Bill To
           </p>
           <h3 className="mt-3 text-lg font-extrabold text-slate-950">
-            {invoiceData.buyer.name || '客户名称'}
+            {invoiceData.buyer.name || 'Client Name'}
           </h3>
           <div className="mt-3 space-y-1.5 text-xs leading-relaxed text-slate-500">
             {invoiceData.buyer.email && <p className="break-all">{invoiceData.buyer.email}</p>}
             <p className="whitespace-pre-line">
-              {invoiceData.buyer.address || '客户地址'}
+              {invoiceData.buyer.address || 'Billing Address'}
             </p>
           </div>
         </div>
 
         <dl className="grid grid-cols-2 content-start gap-x-5 gap-y-4 rounded-2xl bg-slate-50 p-5">
           <div>
-            <dt className="text-[10px] font-bold uppercase tracking-wider text-slate-400">开票日期</dt>
+            <dt className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Invoice Date</dt>
             <dd className="mt-1 text-xs font-bold text-slate-800">{formatDate(invoiceData.issueDate)}</dd>
           </div>
           <div>
-            <dt className="text-[10px] font-bold uppercase tracking-wider text-slate-400">截止日期</dt>
+            <dt className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Due Date</dt>
             <dd className="mt-1 text-xs font-bold text-slate-800">{formatDate(invoiceData.dueDate)}</dd>
           </div>
         </dl>
       </section>
 
-      <section aria-label="商品明细">
+      <section aria-label="Line items">
         <table className="w-full table-fixed border-collapse text-xs">
           <thead>
             <tr className="bg-[var(--invoice-accent)] text-white">
-              <th className="w-[48%] rounded-l-xl px-4 py-3.5 text-left text-[10px] font-bold uppercase tracking-wider">项目</th>
-              <th className="w-[12%] px-2 py-3.5 text-center text-[10px] font-bold uppercase tracking-wider">数量</th>
-              <th className="w-[20%] px-2 py-3.5 text-right text-[10px] font-bold uppercase tracking-wider">单价</th>
-              <th className="w-[20%] rounded-r-xl px-4 py-3.5 text-right text-[10px] font-bold uppercase tracking-wider">金额</th>
+              <th className="w-[48%] rounded-l-xl px-4 py-3.5 text-left text-[10px] font-bold uppercase tracking-wider">Item Description</th>
+              <th className="w-[12%] px-2 py-3.5 text-center text-[10px] font-bold uppercase tracking-wider">Quantity</th>
+              <th className="w-[20%] px-2 py-3.5 text-right text-[10px] font-bold uppercase tracking-wider">Rate</th>
+              <th className="w-[20%] rounded-r-xl px-4 py-3.5 text-right text-[10px] font-bold uppercase tracking-wider">Amount</th>
             </tr>
           </thead>
           <tbody>
             {invoiceData.items.map((item, index) => (
               <tr key={item.id} className="border-b border-slate-100 align-top">
                 <td className="break-words px-4 py-4 font-semibold leading-relaxed text-slate-800">
-                  {item.name || `未命名项目 ${index + 1}`}
+                  {item.name || `Untitled item ${index + 1}`}
                 </td>
                 <td className="px-2 py-4 text-center text-slate-500">
                   {toFiniteNumber(item.quantity)}
@@ -184,33 +184,33 @@ export function InvoicePreview({ invoiceData, isPro }: InvoicePreviewProps) {
 
       <section className="mt-8 grid grid-cols-[1fr_260px] gap-12">
         <div className="min-w-0">
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">备注</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Notes</p>
           <p className="mt-3 whitespace-pre-line text-xs leading-6 text-slate-500">
-            {invoiceData.notes || '感谢您的合作。'}
+            {invoiceData.notes || 'Thank you for your business.'}
           </p>
         </div>
 
         <dl className="space-y-3 text-xs">
           <div className="flex items-center justify-between text-slate-500">
-            <dt>小计</dt>
+            <dt>Subtotal</dt>
             <dd className="font-semibold tabular-nums text-slate-800">
               {formatMoney(subtotal, invoiceData.currencySymbol)}
             </dd>
           </div>
           <div className="flex items-center justify-between text-slate-500">
-            <dt>税费 ({toFiniteNumber(invoiceData.taxRate)}%)</dt>
+            <dt>Tax ({toFiniteNumber(invoiceData.taxRate)}%)</dt>
             <dd className="font-semibold tabular-nums text-slate-800">
               {formatMoney(taxAmount, invoiceData.currencySymbol)}
             </dd>
           </div>
           <div className="flex items-center justify-between text-slate-500">
-            <dt>折扣</dt>
+            <dt>Discount</dt>
             <dd className="font-semibold tabular-nums text-emerald-700">
               − {formatMoney(discount, invoiceData.currencySymbol)}
             </dd>
           </div>
           <div className="mt-4 flex items-end justify-between border-t-2 border-[var(--invoice-accent)] pt-4">
-            <dt className="font-bold text-slate-900">应付总额</dt>
+            <dt className="font-bold text-slate-900">Total Due</dt>
             <dd className="text-xl font-black tracking-tight tabular-nums text-slate-950">
               {formatMoney(total, invoiceData.currencySymbol)}
             </dd>
@@ -224,16 +224,16 @@ export function InvoicePreview({ invoiceData, isPro }: InvoicePreviewProps) {
           className="pointer-events-none absolute bottom-[5mm] left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-100/90 px-2 py-1 text-[8px] font-bold tracking-wide text-slate-400"
           aria-hidden="true"
         >
-          Generated with Free Invoice Fold
+          Created with Free Invoice Fold (invoice-fold.vercel.app)
         </div>
       )}
 
       <footer className="mt-auto flex items-center justify-between border-t border-slate-200 pt-4 text-[10px] text-slate-400">
         <span className="flex items-center gap-1.5">
           <Building2 size={12} aria-hidden="true" />
-          {invoiceData.seller.name || 'Invoice Generator'}
+          {invoiceData.seller.name || 'Invoice Fold'}
         </span>
-        <span>谢谢惠顾 · Thank you</span>
+        <span>Thank you for your business</span>
       </footer>
     </article>
   )

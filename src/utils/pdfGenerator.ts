@@ -4,7 +4,7 @@ import { getStoredLicenseStatus } from './license'
 const A4_WIDTH_MM = 210
 const A4_HEIGHT_MM = 297
 const PREVIEW_SELECTOR = '[data-invoice-preview]'
-const FREE_WATERMARK = 'Generated with Free Invoice Fold'
+const FREE_WATERMARK = 'Created with Free Invoice Fold (invoice-fold.vercel.app)'
 
 function waitForImages(element: HTMLElement) {
   const images = Array.from(element.querySelectorAll('img'))

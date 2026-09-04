@@ -50,21 +50,22 @@ interface TextareaFieldProps
 }
 
 const currencies = [
-  { code: 'CNY', symbol: '¥', label: 'CNY — 人民币' },
-  { code: 'USD', symbol: '$', label: 'USD — 美元' },
-  { code: 'EUR', symbol: '€', label: 'EUR — 欧元' },
-  { code: 'GBP', symbol: '£', label: 'GBP — 英镑' },
-  { code: 'SGD', symbol: 'S$', label: 'SGD — 新加坡元' },
+  { code: 'USD', symbol: '$', label: 'USD — US Dollar' },
+  { code: 'EUR', symbol: '€', label: 'EUR — Euro' },
+  { code: 'GBP', symbol: '£', label: 'GBP — British Pound' },
+  { code: 'SGD', symbol: 'S$', label: 'SGD — Singapore Dollar' },
+  { code: 'JPY', symbol: '¥', label: 'JPY — Japanese Yen' },
+  { code: 'CNY', symbol: 'CN¥', label: 'CNY — Chinese Yuan' },
 ]
 const themeOptions: Array<{
   id: InvoiceTheme
   label: string
   color: string
 }> = [
-  { id: 'classic', label: '黑色经典', color: 'bg-slate-950' },
-  { id: 'blue', label: '经典蓝', color: 'bg-sky-700' },
-  { id: 'green', label: '现代绿', color: 'bg-emerald-600' },
-  { id: 'purple', label: '高级紫', color: 'bg-violet-600' },
+  { id: 'classic', label: 'Classic Black', color: 'bg-slate-950' },
+  { id: 'blue', label: 'Classic Blue', color: 'bg-sky-700' },
+  { id: 'green', label: 'Modern Green', color: 'bg-emerald-600' },
+  { id: 'purple', label: 'Premium Purple', color: 'bg-violet-600' },
 ]
 
 const inputClassName =
@@ -189,11 +190,11 @@ export function InvoiceForm({
 
     if (!file) return
     if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
-      setLogoError('仅支持 PNG、JPG 或 WebP 图片。')
+      setLogoError('Please upload a PNG, JPG, or WebP image.')
       return
     }
     if (file.size > 3 * 1024 * 1024) {
-      setLogoError('Logo 文件不能超过 3 MB。')
+      setLogoError('Your logo must be smaller than 3 MB.')
       return
     }
 
@@ -205,7 +206,7 @@ export function InvoiceForm({
       }
     })
     reader.addEventListener('error', () => {
-      setLogoError('无法读取该图片，请重新选择。')
+      setLogoError('We could not read this image. Please choose another file.')
     })
     reader.readAsDataURL(file)
   }
@@ -215,11 +216,11 @@ export function InvoiceForm({
       className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
       onSubmit={(event) => event.preventDefault()}
     >
-      <Section title="发票信息" icon={<CalendarDays size={17} aria-hidden="true" />}>
+      <Section title="Invoice Details" icon={<CalendarDays size={17} aria-hidden="true" />}>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field
             id="invoice-number"
-            label="发票编号"
+            label="Invoice Number"
             value={invoiceData.invoiceNumber}
             onChange={(event) => updateField('invoiceNumber', event.target.value)}
             placeholder="INV-2026-001"
@@ -227,7 +228,7 @@ export function InvoiceForm({
 
           <div className="text-xs font-semibold text-slate-600">
             <div className="flex items-center justify-between gap-2">
-              <label htmlFor="invoice-currency">币种</label>
+              <label htmlFor="invoice-currency">Currency</label>
               {!isPro && (
                 <button
                   type="button"
@@ -259,7 +260,7 @@ export function InvoiceForm({
                 onClick={onRequestUpgrade}
                 className={`${inputClassName} flex items-center justify-between text-left text-slate-500`}
               >
-                <span>CNY — 人民币</span>
+                <span>USD — US Dollar</span>
                 <Crown size={15} className="text-amber-500" aria-hidden="true" />
               </button>
             )}
@@ -267,21 +268,21 @@ export function InvoiceForm({
 
           <Field
             id="issue-date"
-            label="开票日期"
+            label="Date"
             type="date"
             value={invoiceData.issueDate}
             onChange={(event) => updateField('issueDate', event.target.value)}
           />
           <Field
             id="due-date"
-            label="付款截止日"
+            label="Due Date"
             type="date"
             value={invoiceData.dueDate}
             onChange={(event) => updateField('dueDate', event.target.value)}
           />
           <div className="sm:col-span-2">
             <div className="mb-2 flex items-center justify-between gap-2">
-              <span className="text-xs font-semibold text-slate-600">发票主题颜色</span>
+              <span className="text-xs font-semibold text-slate-600">Invoice Color Theme</span>
               {!isPro && (
                 <button
                   type="button"
@@ -289,7 +290,7 @@ export function InvoiceForm({
                   className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 hover:text-amber-800"
                 >
                   <Lock size={11} aria-hidden="true" />
-                  Pro 主题
+                  PRO Themes
                 </button>
               )}
             </div>
@@ -313,7 +314,7 @@ export function InvoiceForm({
                         : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
                     }`}
                     aria-pressed={isSelected}
-                    title={isLocked ? '升级 Pro 解锁更多发票主题' : theme.label}
+                    title={isLocked ? 'Upgrade to PRO to unlock premium themes' : theme.label}
                   >
                     <span className={`size-3 shrink-0 rounded-full ${theme.color}`} />
                     <span className="truncate">{theme.label}</span>
@@ -332,14 +333,14 @@ export function InvoiceForm({
         </div>
       </Section>
 
-      <Section title="收款方 / Seller" icon={<Building2 size={17} aria-hidden="true" />}>
+      <Section title="From / Your Business" icon={<Building2 size={17} aria-hidden="true" />}>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field
             id="seller-name"
-            label="公司名称"
+            label="Business Name"
             value={invoiceData.seller.name}
             onChange={(event) => updateSeller('name', event.target.value)}
-            placeholder="星河创意工作室"
+            placeholder="Northstar Creative Studio"
           />
           <Field
             id="seller-email"
@@ -351,18 +352,18 @@ export function InvoiceForm({
           />
           <TextareaField
             id="seller-address"
-            label="公司地址"
+            label="Business Address"
             className="sm:col-span-2"
             rows={2}
             value={invoiceData.seller.address}
             onChange={(event) => updateSeller('address', event.target.value)}
-            placeholder="填写公司完整地址"
+            placeholder="Street, city, state, ZIP, country"
           />
 
           <div className="sm:col-span-2">
             <div className="mb-1.5 flex items-center justify-between gap-2">
-              <span className="text-xs font-semibold text-slate-600">公司 Logo</span>
-              <span className="text-[10px] text-slate-400">PNG / JPG / WebP · 最大 3 MB</span>
+              <span className="text-xs font-semibold text-slate-600">Business Logo</span>
+              <span className="text-[10px] text-slate-400">PNG / JPG / WebP · Up to 3 MB</span>
             </div>
 
             {isPro ? (
@@ -372,19 +373,19 @@ export function InvoiceForm({
                     <div className="grid size-14 shrink-0 place-items-center overflow-hidden rounded-xl border border-slate-200 bg-white">
                       <img
                         src={invoiceData.seller.logoUrl}
-                        alt="已上传的公司 Logo"
+                        alt="Uploaded business logo"
                         className="size-full object-contain p-1"
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold text-slate-800">自定义 Logo 已启用</p>
-                      <p className="mt-1 text-xs text-slate-500">图片仅保存在当前发票会话中。</p>
+                      <p className="text-sm font-bold text-slate-800">Custom logo enabled</p>
+                      <p className="mt-1 text-xs text-slate-500">This image stays in your current browser session.</p>
                     </div>
                     <button
                       type="button"
                       onClick={() => updateSeller('logoUrl', '')}
                       className="grid size-8 place-items-center rounded-lg text-slate-400 transition hover:bg-rose-50 hover:text-rose-600"
-                      aria-label="移除公司 Logo"
+                      aria-label="Remove business logo"
                     >
                       <X size={16} aria-hidden="true" />
                     </button>
@@ -392,7 +393,7 @@ export function InvoiceForm({
                 ) : (
                   <label className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed border-sky-300 bg-white px-4 py-3 text-sm font-bold text-sky-700 transition hover:border-sky-400 hover:bg-sky-50">
                     <ImagePlus size={17} aria-hidden="true" />
-                    上传自定义 Logo
+                    Upload Custom Logo
                     <input
                       type="file"
                       accept="image/png,image/jpeg,image/webp"
@@ -414,8 +415,8 @@ export function InvoiceForm({
                     <Lock size={17} aria-hidden="true" />
                   </span>
                   <span>
-                    <span className="block text-sm font-bold text-slate-800">升级 Pro 解锁上传公司 Logo</span>
-                    <span className="mt-0.5 block text-xs text-slate-500">让发票显示您的品牌标识</span>
+                    <span className="block text-sm font-bold text-slate-800">Upgrade to PRO to upload your business logo</span>
+                    <span className="mt-0.5 block text-xs text-slate-500">Add your brand identity to every invoice</span>
                   </span>
                 </span>
                 <Crown size={17} className="shrink-0 text-amber-500" aria-hidden="true" />
@@ -425,14 +426,14 @@ export function InvoiceForm({
         </div>
       </Section>
 
-      <Section title="付款方 / Buyer" icon={<UserRound size={17} aria-hidden="true" />}>
+      <Section title="Bill To" icon={<UserRound size={17} aria-hidden="true" />}>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field
             id="buyer-name"
-            label="客户名称"
+            label="Client Name"
             value={invoiceData.buyer.name}
             onChange={(event) => updateBuyer('name', event.target.value)}
-            placeholder="客户或公司名称"
+            placeholder="Client or company name"
           />
           <Field
             id="buyer-email"
@@ -444,28 +445,28 @@ export function InvoiceForm({
           />
           <TextareaField
             id="buyer-address"
-            label="客户地址"
+            label="Billing Address"
             className="sm:col-span-2"
             rows={2}
             value={invoiceData.buyer.address}
             onChange={(event) => updateBuyer('address', event.target.value)}
-            placeholder="填写客户完整地址"
+            placeholder="Street, city, state, ZIP, country"
           />
         </div>
       </Section>
 
-      <Section title="商品明细" icon={<PackageOpen size={17} aria-hidden="true" />}>
+      <Section title="Line Items" icon={<PackageOpen size={17} aria-hidden="true" />}>
         <div className="space-y-3">
           {invoiceData.items.map((item, index) => (
             <div key={item.id} className="rounded-xl border border-slate-200 bg-slate-50/70 p-3.5">
               <div className="mb-3 flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-500">明细 {index + 1}</span>
+                <span className="text-xs font-bold text-slate-500">Line Item {index + 1}</span>
                 <button
                   type="button"
                   className="grid size-8 place-items-center rounded-lg text-slate-400 transition hover:bg-rose-50 hover:text-rose-600 disabled:cursor-not-allowed disabled:opacity-30"
                   onClick={() => removeItem(item.id)}
                   disabled={invoiceData.items.length === 1}
-                  aria-label={`删除明细 ${index + 1}`}
+                  aria-label={`Remove line item ${index + 1}`}
                 >
                   <Trash2 size={16} aria-hidden="true" />
                 </button>
@@ -473,15 +474,15 @@ export function InvoiceForm({
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-[minmax(0,40fr)_minmax(64px,15fr)_minmax(92px,22fr)_minmax(100px,23fr)]">
                 <Field
                   id={`item-name-${item.id}`}
-                  label="名称"
+                  label="Item Description"
                   className="col-span-2 min-w-0 sm:col-span-1"
                   value={item.name}
                   onChange={(event) => updateItem(item.id, 'name', event.target.value)}
-                  placeholder="服务或商品名称"
+                  placeholder="Product or service"
                 />
                 <Field
                   id={`item-quantity-${item.id}`}
-                  label="数量"
+                  label="Quantity"
                   type="number"
                   min="0"
                   step="1"
@@ -492,7 +493,7 @@ export function InvoiceForm({
                 />
                 <Field
                   id={`item-price-${item.id}`}
-                  label="单价"
+                  label="Rate"
                   type="number"
                   min="0"
                   step="0.01"
@@ -503,7 +504,7 @@ export function InvoiceForm({
                 />
                 <Field
                   id={`item-amount-${item.id}`}
-                  label="金额"
+                  label="Amount"
                   type="number"
                   value={item.amount.toFixed(2)}
                   readOnly
@@ -519,16 +520,16 @@ export function InvoiceForm({
             onClick={() => updateField('items', [...invoiceData.items, createItem()])}
           >
             <CirclePlus size={17} aria-hidden="true" />
-            添加明细
+            Add Line Item
           </button>
         </div>
       </Section>
 
-      <Section title="金额调整" icon={<Percent size={17} aria-hidden="true" />}>
+      <Section title="Tax & Discount" icon={<Percent size={17} aria-hidden="true" />}>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field
             id="tax-rate"
-            label="税率（%）"
+            label="Tax Rate (%)"
             type="number"
             min="0"
             step="0.01"
@@ -537,7 +538,7 @@ export function InvoiceForm({
           />
           <Field
             id="discount"
-            label="折扣金额"
+            label="Discount"
             type="number"
             min="0"
             step="0.01"
@@ -547,13 +548,13 @@ export function InvoiceForm({
         </div>
       </Section>
 
-      <Section title="备注" icon={<FileText size={17} aria-hidden="true" />}>
+      <Section title="Notes" icon={<FileText size={17} aria-hidden="true" />}>
         <TextareaField
           id="notes"
-          label="付款说明或其他备注"
+          label="Payment Terms or Notes"
           value={invoiceData.notes}
           onChange={(event) => updateField('notes', event.target.value)}
-          placeholder="感谢您的合作。"
+          placeholder="Thank you for your business."
         />
       </Section>
     </form>
