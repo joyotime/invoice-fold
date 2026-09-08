@@ -8,6 +8,7 @@ import {
   LockKeyhole,
   ReceiptText,
 } from 'lucide-react'
+import { FaqSection } from './components/FaqSection'
 import { InvoiceForm } from './components/InvoiceForm'
 import { InvoicePreview } from './components/InvoicePreview'
 import { LicenseModal } from './components/LicenseModal'
@@ -236,7 +237,15 @@ function App() {
             </div>
           </section>
         </div>
+
+        <FaqSection />
       </main>
+
+      <footer className="no-print border-t border-slate-200 bg-white/80 px-4 py-5 text-center sm:px-6">
+        <p className="mx-auto inline-flex max-w-full items-center justify-center rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-bold leading-5 text-emerald-800">
+          🔒 100% Private &amp; Client-Side | Built for Freelancers &amp; Independent Creators Worldwide
+        </p>
+      </footer>
 
       <LicenseModal
         isOpen={isLicenseModalOpen}
